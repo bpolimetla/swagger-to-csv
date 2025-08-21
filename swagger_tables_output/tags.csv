@@ -1,0 +1,4 @@
+name,description,externalDocs_description,externalDocs_url
+pet,Everything about your Pets,Find out more,http://swagger.io
+store,Access to Petstore orders,,
+user,Operations about user,Find out more about our store,http://swagger.io

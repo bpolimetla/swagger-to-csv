@@ -1,0 +1,21 @@
+API Group (tags),Method,Path,Summary,OperationId,Deprecated,Auth (security),Parameters,RequestBody,Responses
+pet,POST,/pet,Add a new pet to the store,addPet,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",body (body)*,,405
+pet,PUT,/pet,Update an existing pet,updatePet,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",body (body)*,,"400, 404, 405"
+pet,GET,/pet/findByStatus,Finds Pets by status,findPetsByStatus,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",status (query)* : array,,"200, 400"
+pet,GET,/pet/findByTags,Finds Pets by tags,findPetsByTags,true,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",tags (query)* : array,,"200, 400"
+pet,DELETE,/pet/{petId},Deletes a pet,deletePet,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",api_key (header) : string; petId (path)* : integer,,"400, 404"
+pet,GET,/pet/{petId},Find pet by ID,getPetById,false,"[{""api_key"": []}]",petId (path)* : integer,,"200, 400, 404"
+pet,POST,/pet/{petId},Updates a pet in the store with form data,updatePetWithForm,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",petId (path)* : integer; name (formData) : string; status (formData) : string,,405
+pet,POST,/pet/{petId}/uploadImage,uploads an image,uploadFile,false,"[{""petstore_auth"": [""write:pets"", ""read:pets""]}]",petId (path)* : integer; additionalMetadata (formData) : string; file (formData) : file,,200
+store,GET,/store/inventory,Returns pet inventories by status,getInventory,false,"[{""api_key"": []}]",,,200
+store,POST,/store/order,Place an order for a pet,placeOrder,false,,body (body)*,,"200, 400"
+store,DELETE,/store/order/{orderId},Delete purchase order by ID,deleteOrder,false,,orderId (path)* : integer,,"400, 404"
+store,GET,/store/order/{orderId},Find purchase order by ID,getOrderById,false,,orderId (path)* : integer,,"200, 400, 404"
+user,POST,/user,Create user,createUser,false,,body (body)*,,default
+user,POST,/user/createWithArray,Creates list of users with given input array,createUsersWithArrayInput,false,,body (body)* : array,,default
+user,POST,/user/createWithList,Creates list of users with given input array,createUsersWithListInput,false,,body (body)* : array,,default
+user,GET,/user/login,Logs user into the system,loginUser,false,,username (query)* : string; password (query)* : string,,"200, 400"
+user,GET,/user/logout,Logs out current logged in user session,logoutUser,false,,,,default
+user,DELETE,/user/{username},Delete user,deleteUser,false,,username (path)* : string,,"400, 404"
+user,GET,/user/{username},Get user by user name,getUserByName,false,,username (path)* : string,,"200, 400, 404"
+user,PUT,/user/{username},Updated user,updateUser,false,,username (path)* : string; body (body)*,,"400, 404"

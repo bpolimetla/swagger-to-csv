@@ -1,0 +1,3 @@
+name,type,in,name_in_header,flow,authorizationUrl,tokenUrl,scopes
+api_key,apiKey,header,api_key,,,,
+petstore_auth,oauth2,,,implicit,https://petstore.swagger.io/oauth/authorize,,"read:pets:read your pets, write:pets:modify pets in your account"

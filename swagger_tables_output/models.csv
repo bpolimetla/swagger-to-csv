@@ -1,0 +1,7 @@
+model_name,type,xml_name,description,required_fields
+ApiResponse,object,,,
+Category,object,Category,,
+Pet,object,Pet,,"name, photoUrls"
+Tag,object,Tag,,
+Order,object,Order,,
+User,object,User,,

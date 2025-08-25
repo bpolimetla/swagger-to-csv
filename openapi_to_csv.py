@@ -81,12 +81,12 @@ def detect_servers(spec):
     return []
 
 def main():
-    ap = argparse.ArgumentParser(description="Convert OpenAPI/Swagger JSON to CSV of endpoints")
-    ap.add_argument("openapi_json", help="Path to Swagger/OpenAPI JSON file")
-    ap.add_argument("-o","--out", default="openapi_endpoints.csv", help="Output CSV path")
-    args = ap.parse_args()
+    # Hardcoded input and output file names
+    file_name="test-api-docs"
+    input_file = file_name+".json"
+    output_file = file_name+".csv"
 
-    spec = load_json(args.openapi_json)
+    spec = load_json(input_file)
     version = spec.get("openapi") or spec.get("swagger") or "unknown"
     servers = detect_servers(spec)
 
@@ -103,6 +103,7 @@ def main():
                 continue
             tags = op.get("tags") or []
             summary = op.get("summary") or ""
+            description = op.get("description") or ""
             operation_id = op.get("operationId") or ""
             deprecated = bool(op.get("deprecated", False))
             security = op.get("security", [])
@@ -114,6 +115,7 @@ def main():
                 "Method": method.upper(),
                 "Path": path,
                 "Summary": summary,
+                "Description": description,
                 "OperationId": operation_id,
                 "Deprecated": "true" if deprecated else "false",
                 "Auth (security)": json.dumps(security) if security else "",
@@ -122,20 +124,22 @@ def main():
                 "Responses": status_codes
             })
 
+
     # sort for readability
     rows.sort(key=lambda r: (r["API Group (tags)"], r["Path"], r["Method"]))
 
+
     # write CSV
-    with open(args.out, "w", newline="", encoding="utf-8") as f:
+    with open(output_file, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=[
-            "API Group (tags)","Method","Path","Summary","OperationId",
-            "Deprecated","Auth (security)","Parameters","RequestBody","Responses"
+            "API Group (tags)", "Method", "Path", "Summary", "Description", "OperationId",
+            "Deprecated", "Auth (security)", "Parameters", "RequestBody", "Responses"
         ])
         writer.writeheader()
         writer.writerows(rows)
 
     # Print a short summary to stdout
-    print(f"Wrote {len(rows)} endpoints to {args.out}")
+    print(f"Wrote {len(rows)} endpoints to {output_file}")
     if servers:
         print("Server URLs: " + " | ".join(servers))
     print(f"Spec version: {version}")
